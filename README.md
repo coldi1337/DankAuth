@@ -69,7 +69,7 @@ Verified locally on **Arch Linux, Hyprland, DMS 1.6.2**. Other compositors and d
 
 ## Registry and provenance
 
-`registry/coldi1337-dankauth.json` prepares a future registry submission. It is not submitted or approved by the DMS registry. Central POEditor enrollment is separate; the entry intentionally does not set `i18n: true`. Registry submissions disclose AI assistance and remain subject to maintainer review.
+`registry/coldi1337-dankauth.json` is submitted in [registry PR #1032](https://github.com/AvengeMedia/dms-plugin-registry/pull/1032), pending maintainer review and merge. Central POEditor enrollment is separate; the entry intentionally does not set `i18n: true`. Registry submissions disclose AI assistance and remain subject to maintainer review.
 
 DankAuth is **AGPL-3.0-only**. Ente protocol, crypto and OTP helpers derive from [aheimowitz/ente-auth-extension](https://github.com/aheimowitz/ente-auth-extension), revision `78e7ff8668c60b2fc31268293698de0e7014349c`. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [bundled dependency notices](backend/licenses/NOTICE.txt).
 

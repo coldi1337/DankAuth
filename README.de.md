@@ -69,7 +69,7 @@ Lokal geprüft auf **Arch Linux, Hyprland, DMS 1.6.2**. Weitere Compositors oder
 
 ## Registry, Herkunft und Lizenz
 
-`registry/coldi1337-dankauth.json` bereitet eine spätere Registry-Einreichung vor. Es gibt noch keine Einreichung oder Freigabe. Die Aufnahme in POEditor ist ein eigener Schritt; `i18n: true` wird bewusst nicht gesetzt. Registry-Einreichungen legen die KI-Unterstützung offen und werden von den Maintainern geprüft.
+`registry/coldi1337-dankauth.json` wurde mit [Registry-PR #1032](https://github.com/AvengeMedia/dms-plugin-registry/pull/1032) eingereicht. Prüfung und Merge durch die Maintainer stehen noch aus. Die Aufnahme in POEditor ist ein eigener Schritt; `i18n: true` wird bewusst nicht gesetzt. Registry-Einreichungen legen die KI-Unterstützung offen und werden von den Maintainern geprüft.
 
 **AGPL-3.0-only.** Protokoll-, Kryptografie- und OTP-Helfer stammen aus [aheimowitz/ente-auth-extension](https://github.com/aheimowitz/ente-auth-extension), Revision `78e7ff8668c60b2fc31268293698de0e7014349c`. Siehe [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) und [gebündelte Lizenzhinweise](backend/licenses/NOTICE.txt).
 
