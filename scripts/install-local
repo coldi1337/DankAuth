@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+plugin_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+target="${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell/plugins/DankAuth"
+if [ ! -f "$plugin_dir/backend/dist/main.js" ]; then "$plugin_dir/scripts/setup"; fi
+mkdir -p "$(dirname -- "$target")"
+if [ -e "$target" ] || [ -L "$target" ]; then
+    [ "$(readlink -f "$target")" = "$plugin_dir" ] || { echo "DankAuth already exists; refusing to replace it." >&2; exit 1; }
+else
+    ln -s "$plugin_dir" "$target"
+fi
+printf '%s\n' 'Installed. In DMS Settings → Plugins: scan, enable DankAuth, and add its widget to your bar.'

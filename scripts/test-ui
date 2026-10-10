@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Verify the actual UI against installed DMS components in a private session."""
+import json
+import os
+from pathlib import Path
+import shutil
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+
+repo = Path(__file__).resolve().parents[1]
+candidates = sorted(Path(os.environ.get('XDG_RUNTIME_DIR', f'/run/user/{os.getuid()}')).glob('danklinux-shell/*/shell.qml'), key=lambda p: p.stat().st_mtime, reverse=True)
+dms = Path(os.environ['ENTE_DMS_SOURCE']) if 'ENTE_DMS_SOURCE' in os.environ else candidates[0].parent if candidates else Path('/usr/share/quickshell/dms')
+artifacts = Path(os.environ.get('ENTE_QA_OUTPUT', repo / 'preview')).resolve()
+artifacts.mkdir(parents=True, exist_ok=True)
+with tempfile.TemporaryDirectory(prefix='ente-ui-') as directory:
+    base = Path(directory)
+    for child in dms.iterdir():
+        if child.is_dir(): shutil.copytree(child, base / child.name)
+    (base / 'shell.qml').write_text((repo / 'tests/ui-shell.qml').read_text())
+    plugin = base / 'testplugin'; plugin.mkdir()
+    for source in repo.glob('*.qml'):
+        shutil.copy2(source, plugin / ('EnteService.qml' if source.name == 'Service.qml' else source.name))
+    (plugin / 'scripts').mkdir()
+    shutil.copy2(repo / 'scripts/check-dependencies', plugin / 'scripts/check-dependencies')
+    shutil.copytree(repo / 'backend/dist', plugin / 'backend/dist')
+    shutil.copy2(repo / 'package.json', plugin / 'package.json')
+    # Demo must never start this helper.
+    (plugin / 'scripts/run-bridge').write_text('exit 99\n')
+    env = os.environ.copy()
+    for kind in ['CONFIG', 'CACHE', 'STATE', 'DATA']:
+        target = base / kind.lower(); target.mkdir()
+        env[f'XDG_{kind}_HOME'] = str(target)
+    display = env.get('WAYLAND_DISPLAY', '')
+    if display and not display.startswith('/'):
+        env['WAYLAND_DISPLAY'] = str(Path(env.get('XDG_RUNTIME_DIR', f'/run/user/{os.getuid()}')) / display)
+    runtime = base / 'runtime'; runtime.mkdir(mode=0o700)
+    env.update(XDG_RUNTIME_DIR=str(runtime), QT_QPA_PLATFORM='wayland', QT_QPA_PLATFORMTHEME='generic', NO_AT_BRIDGE='1', QT_ACCESSIBILITY='0', DMS_DISABLE_MATUGEN='1', DMS_SOCKET=str(base / 'nonexistent.sock'), QT_NO_XDG_DESKTOP_PORTAL='1', ENTE_QA_OUTPUT=str(artifacts))
+    env.pop('AT_SPI_BUS_ADDRESS', None)
+    env['ENTE_QA_TRANSLATIONS'] = (repo / 'translations/de.json').read_text()
+    settings_path = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config')) / 'DankMaterialShell/settings.json'
+    theme_path = json.loads(settings_path.read_text()).get('customThemeFile') if settings_path.exists() else None
+    env['ENTE_QA_THEME'] = Path(theme_path).read_text() if theme_path and Path(theme_path).exists() else json.dumps({'dark': {'name': 'Fixture', 'primary': '#80E0A7', 'surface': '#101416'}})
+    log = (artifacts / 'ui-test.log').open('w')
+    process = subprocess.Popen(['dbus-run-session', '--', 'qs', '-p', str(base)], env=env, stdout=log, stderr=subprocess.STDOUT, text=True, start_new_session=True)
+    def ipc(function, *args):
+        result = subprocess.run(['qs', '-p', str(base), 'ipc', 'call', 'test', function, *map(str, args)], env=env, capture_output=True, text=True, timeout=5)
+        if result.returncode: raise RuntimeError(result.stderr.strip() or result.stdout.strip())
+        return result.stdout.strip()
+    try:
+        for _ in range(30):
+            if process.poll() is not None: raise RuntimeError('UI exited during loading')
+            try:
+                assert ipc('check') == 'PASS'; break
+            except (RuntimeError, AssertionError): time.sleep(0.15)
+        else: raise RuntimeError('UI did not become ready')
+        assert ipc('startup') == 'pending'
+        for _ in range(80):
+            status = ipc('startupStatus')
+            if status != 'pending': break
+            time.sleep(0.05)
+        assert status == 'PASS', status
+        assert ipc('translatedSearch') == 'Konten oder Tags suchen'
+        ipc('locale', 'en'); time.sleep(0.1)
+        assert ipc('translatedSearch') == 'Search accounts or tags'
+        ipc('locale', 'de'); time.sleep(0.1)
+        assert ipc('translatedSearch') == 'Konten oder Tags suchen'
+        assert ipc('clicks') == 'PASS'
+        assert ipc('beginOptimizations') == 'PASS'
+        time.sleep(0.1)
+        assert ipc('endOptimizations') == 'PASS'
+        assert ipc('filter', 'Development') == '2'
+        assert ipc('query', 'infrastructure') == '1'
+        assert ipc('filter', 'Personal') == '0'
+        ipc('filter', ''); ipc('query', '')
+        for theme, width, columns in [('dark', 476, 1), ('light', 800, 2), ('original', 360, 1), ('original', 476, 1), ('original', 800, 2)]:
+            ipc('theme', theme); ipc('width', width)
+            time.sleep(0.2)
+            layout = json.loads(ipc('layout')); print(theme, width, layout, flush=True)
+            assert layout['columns'] == columns
+            assert layout['primary'] != previous_primary if 'previous_primary' in locals() and theme != previous_theme else True
+            previous_primary = layout['primary']; previous_theme = theme
+            ipc('capture', f'ente-{theme}-{width}')
+            for _ in range(80):
+                if ipc('captured') == 'saved': break
+                time.sleep(0.05)
+            else: raise RuntimeError('Screenshot failed')
+        ipc('locale', 'en'); ipc('theme', 'dark'); ipc('width', 476); time.sleep(0.2)
+        ipc('capture', 'dankauth-en')
+        for _ in range(80):
+            if ipc('captured') == 'saved': break
+            time.sleep(0.05)
+        else: raise RuntimeError('English screenshot failed')
+        ipc('locale', 'de'); time.sleep(0.1)
+        ipc('capture', 'dankauth-de')
+        for _ in range(80):
+            if ipc('captured') == 'saved': break
+            time.sleep(0.05)
+        else: raise RuntimeError('German screenshot failed')
+        ipc('theme', 'original'); time.sleep(0.1)
+        assert ipc('logo') == 'pending'
+        for _ in range(30):
+            if ipc('captured') == 'saved': break
+            time.sleep(0.05)
+        else: raise RuntimeError('Logo preview failed')
+        for orientation in ['horizontal', 'vertical']:
+            for locked in ['yes', 'no']:
+                assert ipc('bar', orientation, locked) == 'pending'
+                for _ in range(80):
+                    if ipc('captured') == 'saved': break
+                    time.sleep(0.05)
+                else: raise RuntimeError('Bar capture failed')
+        for step in ['email', 'password', 'email-code', 'two-factor', 'password-decrypt', 'locked', 'passkey']:
+            ipc('login', step); time.sleep(0.1)
+        ipc('width', 476); ipc('login', 'locked'); time.sleep(0.15)
+        ipc('capture', 'ente-locked')
+        for _ in range(30):
+            if ipc('captured') == 'saved': break
+            time.sleep(0.05)
+        else: raise RuntimeError('Screenshot failed')
+    finally:
+        if process.poll() is None: os.killpg(process.pid, signal.SIGTERM)
+        process.wait(timeout=8)
+        log.close()
+        output = (artifacts / 'ui-test.log').read_text()
+        errors = [line for line in output.splitlines() if any(marker in line for marker in ['ReferenceError', 'TypeError', 'Unable to assign', 'Binding loop', 'Failed to load configuration', 'Property value set multiple times', 'Cannot assign', 'is not a type', 'crashed'])]
+        for error in errors: print(error)
+        if errors: raise RuntimeError('QML runtime diagnostics')
+    print('PASS: real DMS components, DE/EN locale switching, filters, compact/wide/narrow layouts, live theme switches and seven login states')

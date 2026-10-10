@@ -1,0 +1,31 @@
+{
+  "id": "enteAuth",
+  "name": "DankAuth",
+  "description": "Ente Auth for DMS: native codes, pins and tags that follow your desktop theme.",
+  "version": "0.4.0",
+  "author": "coldi1337",
+  "license": "AGPL-3.0-only",
+  "icon": "password",
+  "type": "composite",
+  "components": {
+    "widget": "./BarWidget.qml",
+    "daemon": "./Service.qml"
+  },
+  "settings": "./Settings.qml",
+  "capabilities": [
+    "dankbar-widget",
+    "daemon",
+    "ipc"
+  ],
+  "requires_dms": ">=1.6.2",
+  "dependencies": [
+    "node"
+  ],
+  "permissions": [
+    "settings_read",
+    "settings_write",
+    "process",
+    "network"
+  ],
+  "startupCheck": "./StartupCheck.qml"
+}

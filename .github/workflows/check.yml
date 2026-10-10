@@ -1,0 +1,35 @@
+name: Checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run validate
+      - run: npm test
+      - name: Verify reproducible runtime and license files
+        run: git diff --exit-code -- backend/dist backend/licenses
+      - name: Check bundled runtime without node_modules
+        run: |
+          stage=$(mktemp -d)
+          cp -R backend "$stage/"
+          printf '{"type":"module"}\n' > "$stage/package.json"
+          node --input-type=module - "$stage/backend/dist/main.js" <<'JS'
+          import {pathToFileURL} from 'node:url';
+          const {displayCodes} = await import(pathToFileURL(process.argv[2]));
+          const rows = displayCodes([{id:'fixture',issuer:'Fixture',type:'totp',period:30,length:6,algorithm:'sha1',secret:'JBSWY3DPEHPK3PXP'}], 0);
+          if (!/^\d{6}$/.test(rows[0].otp)) process.exit(1);
+          JS

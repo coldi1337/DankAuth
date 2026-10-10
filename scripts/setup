@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+plugin_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$plugin_dir"
+npm ci --no-audit --no-fund
+npm run build

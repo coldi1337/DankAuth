@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+plugin_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+command -v node >/dev/null 2>&1 || { echo NODE_MISSING; exit 1; }
+command -v dms >/dev/null 2>&1 || { echo DMS_MISSING; exit 1; }
+node -e 'if (Number(process.versions.node.split(".")[0]) < 20) process.exit(1)' || { echo NODE_OLD; exit 1; }
+[ -f "$plugin_dir/backend/dist/main.js" ] || { echo BUNDLE_MISSING; exit 1; }
+node --input-type=module - "$plugin_dir/backend/dist/main.js" <<'JS'
+import {pathToFileURL} from 'node:url';
+try { await import(pathToFileURL(process.argv[2]).href); } catch { console.log('BUNDLE_INVALID'); process.exit(1); }
+JS
+printf '%s\n' READY

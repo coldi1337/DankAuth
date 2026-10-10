@@ -1,0 +1,194 @@
+{
+  "All": {
+    "All": "Alle"
+  },
+  "Another operation is still running.": {
+    "Another operation is still running.": "Ein anderer Vorgang läuft noch."
+  },
+  "Authentication failed. Check your password or verification code.": {
+    "Authentication failed. Check your password or verification code.": "Anmeldung fehlgeschlagen. Prüfe dein Passwort oder den Bestätigungscode."
+  },
+  "Cancel": {
+    "Cancel": "Abbrechen"
+  },
+  "Cancel sign-in": {
+    "Cancel sign-in": "Anmeldung abbrechen"
+  },
+  "Close": {
+    "Close": "Schließen"
+  },
+  "Close popout after copying": {
+    "Close popout after copying": "Popout nach dem Kopieren schließen"
+  },
+  "Code copied": {
+    "Code copied": "Code kopiert"
+  },
+  "Confirm sign out": {
+    "Confirm sign out": "Abmeldung bestätigen"
+  },
+  "Connect to Ente Auth": {
+    "Connect to Ente Auth": "Mit Ente Auth verbinden"
+  },
+  "Continue": {
+    "Continue": "Weiter"
+  },
+  "Copy code": {
+    "Copy code": "Code kopieren"
+  },
+  "Could not complete the request. Check your connection and server settings.": {
+    "Could not complete the request. Check your connection and server settings.": "Anfrage fehlgeschlagen. Prüfe die Verbindung und deine Servereinstellungen."
+  },
+  "Could not copy the code. Check the DMS clipboard service.": {
+    "Could not copy the code. Check the DMS clipboard service.": "Der Code konnte nicht kopiert werden. Prüfe den DMS-Zwischenablagedienst."
+  },
+  "DankAuth could not start": {
+    "DankAuth could not start": "DankAuth konnte nicht gestartet werden"
+  },
+  "DankAuth requires DankMaterialShell 1.6.2 or newer on your PATH.": {
+    "DankAuth requires DankMaterialShell 1.6.2 or newer on your PATH.": "DankAuth benötigt DankMaterialShell 1.6.2 oder neuer im Suchpfad (PATH)."
+  },
+  "Demo mode": {
+    "Demo mode": "Demo-Modus"
+  },
+  "Demo · sample entries": {
+    "Demo · sample entries": "Demo · Beispieleinträge"
+  },
+  "Edit tags": {
+    "Edit tags": "Tags bearbeiten"
+  },
+  "Email address": {
+    "Email address": "E-Mail-Adresse"
+  },
+  "Ente Accounts URL": {
+    "Ente Accounts URL": "Ente-Accounts-Adresse"
+  },
+  "Ente password": {
+    "Ente password": "Ente-Passwort"
+  },
+  "Ente server": {
+    "Ente server": "Ente-Server"
+  },
+  "Enter the second-factor code for your Ente account.": {
+    "Enter the second-factor code for your Ente account.": "Gib den zweiten Faktor für dein Ente-Konto ein."
+  },
+  "Enter the verification code sent to your email.": {
+    "Enter the verification code sent to your email.": "Gib den Bestätigungscode aus deiner E-Mail ein."
+  },
+  "Enter your Ente password to decrypt your codes.": {
+    "Enter your Ente password to decrypt your codes.": "Gib dein Ente-Passwort ein, um deine Codes zu entschlüsseln."
+  },
+  "Enter your Ente password. Your encrypted cache also works offline.": {
+    "Enter your Ente password. Your encrypted cache also works offline.": "Gib dein Ente-Passwort ein. Der verschlüsselte Cache funktioniert auch offline."
+  },
+  "Favorite": {
+    "Favorite": "Favorit"
+  },
+  "Favorites": {
+    "Favorites": "Favoriten"
+  },
+  "Install Node.js 20 or newer, then enable DankAuth again.": {
+    "Install Node.js 20 or newer, then enable DankAuth again.": "Installiere Node.js 20 oder neuer und aktiviere DankAuth erneut."
+  },
+  "Invalid code": {
+    "Invalid code": "Ungültiger Code"
+  },
+  "Leave empty for Ente Cloud. Applies when signing in to a new account.": {
+    "Leave empty for Ente Cloud. Applies when signing in to a new account.": "Für Ente Cloud leer lassen. Gilt bei Anmeldung an einem neuen Konto."
+  },
+  "Lock": {
+    "Lock": "Sperren"
+  },
+  "Lock after inactivity": {
+    "Lock after inactivity": "Sperren bei Inaktivität"
+  },
+  "Locked": {
+    "Locked": "Gesperrt"
+  },
+  "No codes yet. Sync your Ente account.": {
+    "No codes yet. Sync your Ente account.": "Noch keine Codes. Synchronisiere dein Ente-Konto."
+  },
+  "No matching accounts": {
+    "No matching accounts": "Keine passenden Konten"
+  },
+  "Offline · cached codes": {
+    "Offline · cached codes": "Offline · gespeicherte Codes"
+  },
+  "Open window": {
+    "Open window": "Als Fenster öffnen"
+  },
+  "Please wait…": {
+    "Please wait…": "Bitte warten…"
+  },
+  "Preview · copying disabled": {
+    "Preview · copying disabled": "Vorschau · Kopieren deaktiviert"
+  },
+  "Save": {
+    "Save": "Speichern"
+  },
+  "Search accounts or tags": {
+    "Search accounts or tags": "Konten oder Tags suchen"
+  },
+  "Service unavailable. Run scripts/setup and reload the plugin.": {
+    "Service unavailable. Run scripts/setup and reload the plugin.": "Dienst nicht verfügbar. Führe scripts/setup aus und lade das Plugin neu."
+  },
+  "Show sample entries without connecting to Ente. Copying is disabled.": {
+    "Show sample entries without connecting to Ente. Copying is disabled.": "Beispieleinträge ohne Verbindung zu Ente anzeigen. Kopieren ist deaktiviert."
+  },
+  "Sign in with your existing Ente account. Decryption happens locally.": {
+    "Sign in with your existing Ente account. Decryption happens locally.": "Melde dich mit deinem Ente-Konto an. Die Entschlüsselung erfolgt lokal."
+  },
+  "Sign out": {
+    "Sign out": "Abmelden"
+  },
+  "Sync error": {
+    "Sync error": "Synchronisierungsfehler"
+  },
+  "Sync failed. Cached codes remain available; try again.": {
+    "Sync failed. Cached codes remain available; try again.": "Sync fehlgeschlagen. Gespeicherte Codes bleiben verfügbar. Versuche es erneut."
+  },
+  "Sync interval": {
+    "Sync interval": "Sync-Intervall"
+  },
+  "Sync now": {
+    "Sync now": "Jetzt synchronisieren"
+  },
+  "Tags separated by commas": {
+    "Tags separated by commas": "Tags durch Kommas trennen"
+  },
+  "The bundled service is missing or damaged. Reinstall DankAuth or run scripts/setup, then enable it again.": {
+    "The bundled service is missing or damaged. Reinstall DankAuth or run scripts/setup, then enable it again.": "Der mitgelieferte Dienst fehlt oder ist beschädigt. Installiere DankAuth erneut oder führe scripts/setup aus und aktiviere es anschließend wieder."
+  },
+  "The saved vault could not be read.": {
+    "The saved vault could not be read.": "Der gespeicherte Tresor konnte nicht gelesen werden."
+  },
+  "The service response could not be read.": {
+    "The service response could not be read.": "Die Antwort des Dienstes konnte nicht gelesen werden."
+  },
+  "Unlock": {
+    "Unlock": "Entsperren"
+  },
+  "Unlock your vault": {
+    "Unlock your vault": "Tresor entsperren"
+  },
+  "Unofficial Ente client · credentials and cache are stored encrypted.": {
+    "Unofficial Ente client · credentials and cache are stored encrypted.": "Inoffizieller Ente-Client · Zugangsdaten und Cache werden verschlüsselt gespeichert."
+  },
+  "Up to date": {
+    "Up to date": "Aktuell"
+  },
+  "Use Ente for HOTP": {
+    "Use Ente for HOTP": "HOTP in Ente verwenden"
+  },
+  "Use passkey in browser": {
+    "Use passkey in browser": "Passkey im Browser verwenden"
+  },
+  "Verification code": {
+    "Verification code": "Bestätigungscode"
+  },
+  "Verify your passkey in the browser, then return here.": {
+    "Verify your passkey in the browser, then return here.": "Bestätige deinen Passkey im Browser und kehre hierher zurück."
+  },
+  "Your codes, in your desktop": {
+    "Your codes, in your desktop": "Deine Codes direkt im Desktop"
+  }
+}

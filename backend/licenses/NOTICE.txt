@@ -1,0 +1,6 @@
+fast-srp-hap 2.0.4 — MIT
+jssha 3.3.1 — BSD-3-Clause
+libsodium-sumo 0.7.16 — ISC
+libsodium-wrappers-sumo 0.7.15 — ISC
+otpauth 9.2.4 — MIT
+zod 3.24.1 — MIT
