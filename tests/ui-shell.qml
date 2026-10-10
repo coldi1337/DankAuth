@@ -12,6 +12,7 @@ ShellRoot {
     Component.onCompleted: { DC.Style.theme = Theme; DC.Style.settings = SettingsData; SessionData.locale = "de"; DC.I18n.backend = I18n; I18n.registerPluginTranslations("enteAuth", root.germanTable); }
     readonly property var germanTable: JSON.parse(Quickshell.env("ENTE_QA_TRANSLATIONS"))
     property var originalTheme: Theme.currentThemeData
+    property bool promo: false
     property int previewWidth: 476
     property string startupResult: ""
     property string captureStatus: ""
@@ -28,10 +29,11 @@ ShellRoot {
         id: window
         visible: true
         title: "DankAuth layout verification"
-        implicitWidth: 900
-        implicitHeight: 602
+        implicitWidth: root.promo ? 1280 : 900
+        implicitHeight: root.promo ? 720 : 602
         color: Theme.surface
-        Item { width: root.previewWidth; height: 602; AuthView { id: view; service: vault; compact: true } }
+        PromoBoard { id: promoBoard; width: 1280; height: 720; visible: root.promo; service: vault }
+        Item { visible: !root.promo; width: root.previewWidth; height: 602; AuthView { id: view; service: vault; compact: true } }
     }
     function findItem(item, name) {
         const pending = [item];
@@ -155,6 +157,15 @@ ShellRoot {
             Qt.callLater(() => widget.grabToImage(result => {
                 root.captureStatus = result.saveToFile(Quickshell.env("ENTE_QA_OUTPUT") + "/bar-" + orientation + "-" + locked + ".png") ? "saved" : "failed";
                 widget.destroy();
+            }));
+            return "pending";
+        }
+        function preview(language: string): string {
+            root.promo = true; vault.loadDemo();
+            locale(language); theme("dark"); Theme.fontScale = 1;
+            root.captureStatus = "pending";
+            Qt.callLater(() => promoBoard.grabToImage(result => {
+                root.captureStatus = result.saveToFile(Quickshell.env("ENTE_QA_OUTPUT") + "/preview-" + language + ".png") ? "saved" : "failed";
             }));
             return "pending";
         }

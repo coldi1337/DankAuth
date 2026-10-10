@@ -4,7 +4,7 @@
 
 [Deutsch](README.de.md) · [Changelog](CHANGELOG.md) · [License](LICENSE)
 
-![DankAuth with sample entries](preview/dankauth-en.png)
+![DankAuth with sample entries](preview/preview-en.png)
 
 ## Install
 
@@ -69,8 +69,8 @@ Verified locally on **Arch Linux, Hyprland, DMS 1.6.2**. Other compositors and d
 
 ## Registry and provenance
 
-`registry/coldi1337-dankauth.json` prepares a future registry submission. It is not submitted or approved by the DMS registry. Central POEditor enrollment is separate; the entry intentionally does not set `i18n: true`. Any registry PR must disclose the substantial AI assistance used to build this plugin and remain subject to human review.
+`registry/coldi1337-dankauth.json` prepares a future registry submission. It is not submitted or approved by the DMS registry. Central POEditor enrollment is separate; the entry intentionally does not set `i18n: true`. Registry submissions disclose AI assistance and remain subject to maintainer review.
 
 DankAuth is **AGPL-3.0-only**. Ente protocol, crypto and OTP helpers derive from [aheimowitz/ente-auth-extension](https://github.com/aheimowitz/ente-auth-extension), revision `78e7ff8668c60b2fc31268293698de0e7014349c`. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [bundled dependency notices](backend/licenses/NOTICE.txt).
 
-The original simplified logo drawing is inspired by the rounded e and small shield of [Ente Auth](https://ente.com/auth/). No original SVG paths or logo bitmaps are bundled. DankAuth is not affiliated with or endorsed by Ente or DankMaterialShell. Substantial implementation and documentation were prepared with AI assistance and checked with the included tests.
+The original simplified logo drawing is inspired by the rounded e and small shield of [Ente Auth](https://ente.com/auth/). No original SVG paths or logo bitmaps are bundled. DankAuth is not affiliated with or endorsed by Ente or DankMaterialShell. Developed with AI assistance for implementation, tests and documentation. Verification is described above.

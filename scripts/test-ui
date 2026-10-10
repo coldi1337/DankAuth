@@ -20,6 +20,7 @@ with tempfile.TemporaryDirectory(prefix='ente-ui-') as directory:
     for child in dms.iterdir():
         if child.is_dir(): shutil.copytree(child, base / child.name)
     (base / 'shell.qml').write_text((repo / 'tests/ui-shell.qml').read_text())
+    shutil.copy2(repo / 'tests/PromoBoard.qml', base / 'PromoBoard.qml')
     plugin = base / 'testplugin'; plugin.mkdir()
     for source in repo.glob('*.qml'):
         shutil.copy2(source, plugin / ('EnteService.qml' if source.name == 'Service.qml' else source.name))
@@ -120,6 +121,12 @@ with tempfile.TemporaryDirectory(prefix='ente-ui-') as directory:
             if ipc('captured') == 'saved': break
             time.sleep(0.05)
         else: raise RuntimeError('Screenshot failed')
+        for language in ['en']:
+            assert ipc('preview', language) == 'pending'
+            for _ in range(80):
+                if ipc('captured') == 'saved': break
+                time.sleep(0.05)
+            else: raise RuntimeError('Project preview failed')
     finally:
         if process.poll() is None: os.killpg(process.pid, signal.SIGTERM)
         process.wait(timeout=8)
